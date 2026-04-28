@@ -12,11 +12,11 @@
 
 ## Phase 0 — Compose + Playwright smoke test (no mock yet)
 
-- [ ] **Docker Compose test stack (minimal)** — Create `docker-compose.test.yml` with at least **Face Fix (`serve.py`) + test-runner** (Node + Playwright), intentionally **without** mock Immich for this first milestone.
-- [ ] **Canonical test script** — Add one repository-owned entrypoint (`scripts/test-integration.sh`) that runs the Compose stack and returns a correct exit code. The script must require an artifacts-directory argument (fail fast if omitted), and pass that directory into the test-runner container through volume mapping and/or environment variables as needed.
-- [ ] **Playwright smoke scenario** — Launch the app in headless mode, confirm the page shell renders, and save a screenshot artifact.
-- [ ] **CI parity (smoke)** — CI must invoke the same canonical script used locally; do not duplicate stack orchestration logic in workflow YAML.
-- [ ] **Artifact capture** — Publish the screenshot from both local run docs and CI artifact upload so this first test is visibly reproducible.
+- [x] **Docker Compose test stack (minimal)** — Create `docker-compose.test.yml` with at least **Face Fix (`serve.py`) + test-runner** (Node + Playwright), intentionally **without** mock Immich for this first milestone.
+- [x] **Canonical test script** — Add one repository-owned entrypoint (`scripts/test-integration.sh`) that runs the Compose stack and returns a correct exit code. The script must require an artifacts-directory argument (fail fast if omitted), and pass that directory into the test-runner container through volume mapping and/or environment variables as needed.
+- [x] **Playwright smoke scenario** — Launch the app in headless mode, confirm the page shell renders, and save a screenshot artifact.
+- [x] **CI parity (smoke)** — CI must invoke the same canonical script used locally; do not duplicate stack orchestration logic in workflow YAML.
+- [x] **Artifact capture** — Publish the screenshot from both local run docs and CI artifact upload so this first test is visibly reproducible.
 
 ---
 
@@ -80,7 +80,7 @@
 ## Ongoing — CI/CD and documentation
 
 - [ ] **Single automation entrypoint** — Document one canonical command (or wrapper script) for the full suite and require both local developers and CI to use it unchanged.
-- [ ] **Triggers** — Run on push and pull request to the default branch; cache npm where helpful.
+- [x] **Triggers** — Run on push and pull request to the default branch; cache npm where helpful.
 - [ ] **Branch protection** — Require CI green before merge (repository settings).
 - [ ] **README** — User-facing run instructions; **Development** section: Node version, how to run mock-only tests, full stack + E2E locally or via Docker; link **`Architecture.md`** for design detail.
 

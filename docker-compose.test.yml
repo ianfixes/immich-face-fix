@@ -1,0 +1,28 @@
+services:
+  face-fix:
+    image: python:3.12-slim
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    environment:
+      IMMICH_URL: http://127.0.0.1:9
+      IMMICH_API_KEY: phase0-smoke-key
+      PORT: 8080
+      BROWSER: "true"
+    command: python serve.py --immich-url "${IMMICH_URL:-http://127.0.0.1:9}" --api-key "${IMMICH_API_KEY:-phase0-smoke-key}" --port "${PORT:-8080}"
+
+  test-runner:
+    build:
+      context: .
+      dockerfile: ./test-runner/Dockerfile
+    working_dir: /workspace/test-runner
+    depends_on:
+      - face-fix
+    environment:
+      APP_URL: http://face-fix:8080
+      ARTIFACTS_DIR: /artifacts
+    volumes:
+      - ./:/workspace
+      - /workspace/test-runner/node_modules
+      - ${ARTIFACTS_DIR:?ARTIFACTS_DIR is required}:/artifacts
+    command: npm test

@@ -1,3 +1,5 @@
 *.key
 .env
 .DS_Store
+test-runner/node_modules/
+artifacts/

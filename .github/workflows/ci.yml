@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  integration:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare artifacts directory
+        run: mkdir -p artifacts
+
+      # No explicit Node.js setup or npm install here; the Node.js environment and dependencies
+      # for tests found in test-runner/package.json are handled via Docker (see docker-compose.test.yml).
+      # The test-runner service builds its image from test-runner/Dockerfile, which should run npm install.
+
+      - name: Run integration tests
+        run: ./scripts/test-integration.sh artifacts/
+
+      - name: Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: "artifacts/junit.xml"
+        if: always()
+
+
+      - name: Upload screenshots and Playwright output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-artifacts
+          path: |
+            artifacts/phase0-smoke-latest.png
+            artifacts/phase0-smoke-*.png
+            artifacts/playwright-output/**
+          if-no-files-found: warn
